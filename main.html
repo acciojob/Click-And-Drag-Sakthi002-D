@@ -33,10 +33,7 @@
     <div class="item item24">24</div>
     <div class="item item25">25</div>
   </div>
-
-
-//Your code goes here 
-	<script>
+<script>
 const items = document.querySelectorAll('.item');
 
 items.forEach((item) => {
@@ -45,16 +42,17 @@ items.forEach((item) => {
   let offsetX = 0;
   let offsetY = 0;
 
-  item.addEventListener('mousedown', (e) => {
+  item.addEventListener('mousedown', function (e) {
     isDragging = true;
 
-    offsetX = e.clientX - item.offsetLeft;
-    offsetY = e.clientY - item.offsetTop;
+    offsetX = e.clientX - item.getBoundingClientRect().left;
+    offsetY = e.clientY - item.getBoundingClientRect().top;
 
     item.style.position = 'absolute';
+    item.style.zIndex = '1000';
   });
 
-  document.addEventListener('mousemove', (e) => {
+  document.addEventListener('mousemove', function (e) {
 
     if (!isDragging) return;
 
@@ -63,11 +61,11 @@ items.forEach((item) => {
 
   });
 
-  document.addEventListener('mouseup', () => {
+  document.addEventListener('mouseup', function () {
     isDragging = false;
   });
 
 });
-	</script>
+</script>
   </body>
 </html>
