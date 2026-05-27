@@ -36,56 +36,36 @@
 
 
 //Your code goes here 
-	<<script>
+	<script>
 const items = document.querySelectorAll('.item');
 
 items.forEach((item) => {
 
   let isDragging = false;
-  let currentX;
-  let currentY;
-  let initialX;
-  let initialY;
-  let xOffset = 0;
-  let yOffset = 0;
+  let offsetX = 0;
+  let offsetY = 0;
 
-  item.addEventListener("mousedown", dragStart);
+  item.addEventListener('mousedown', (e) => {
+    isDragging = true;
 
-  document.addEventListener("mousemove", drag);
+    offsetX = e.clientX - item.offsetLeft;
+    offsetY = e.clientY - item.offsetTop;
 
-  document.addEventListener("mouseup", dragEnd);
+    item.style.position = 'absolute';
+  });
 
-  function dragStart(e) {
-    initialX = e.clientX - xOffset;
-    initialY = e.clientY - yOffset;
+  document.addEventListener('mousemove', (e) => {
 
-    if (e.target === item) {
-      isDragging = true;
-    }
-  }
+    if (!isDragging) return;
 
-  function drag(e) {
-    if (isDragging) {
+    item.style.left = (e.clientX - offsetX) + 'px';
+    item.style.top = (e.clientY - offsetY) + 'px';
 
-      e.preventDefault();
+  });
 
-      currentX = e.clientX - initialX;
-      currentY = e.clientY - initialY;
-
-      xOffset = currentX;
-      yOffset = currentY;
-
-      item.style.transform =
-        `translate(${currentX}px, ${currentY}px)`;
-    }
-  }
-
-  function dragEnd() {
-    initialX = currentX;
-    initialY = currentY;
-
+  document.addEventListener('mouseup', () => {
     isDragging = false;
-  }
+  });
 
 });
 	</script>
