@@ -34,38 +34,34 @@
     <div class="item item25">25</div>
   </div>
 <script>
-	 const items = document.querySelectorAll('.item');
-  const container = document.querySelector('.items');
+	  const items = document.querySelectorAll(".item");
+  const container = document.querySelector(".items");
 
   let currentItem = null;
-  let isDragging = false;
   let offsetX = 0;
   let offsetY = 0;
+  let isDragging = false;
 
   items.forEach((item) => {
 
-    item.style.position = "absolute";
-
-    // Random starting position
-    item.style.left = Math.random() * 500 + "px";
-    item.style.top = Math.random() * 300 + "px";
-
-    item.addEventListener('mousedown', (e) => {
+    item.addEventListener("mousedown", (e) => {
       currentItem = item;
       isDragging = true;
 
       offsetX = e.clientX - item.offsetLeft;
       offsetY = e.clientY - item.offsetTop;
     });
+
   });
 
-  document.addEventListener('mousemove', (e) => {
-    if (!isDragging || !currentItem) return;
+  document.addEventListener("mousemove", (e) => {
+
+    if (!isDragging) return;
 
     let x = e.clientX - offsetX;
     let y = e.clientY - offsetY;
 
-    // Boundary conditions
+    // boundary
     const maxX = container.clientWidth - currentItem.offsetWidth;
     const maxY = container.clientHeight - currentItem.offsetHeight;
 
@@ -74,14 +70,12 @@
     if (x > maxX) x = maxX;
     if (y > maxY) y = maxY;
 
-    currentItem.style.left = x + 'px';
-    currentItem.style.top = y + 'px';
+    currentItem.style.left = x + "px";
+    currentItem.style.top = y + "px";
   });
 
-  document.addEventListener('mouseup', () => {
+  document.addEventListener("mouseup", () => {
     isDragging = false;
-    currentItem = null;
-  });
 </script>
   </body>
 </html>
