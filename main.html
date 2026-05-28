@@ -34,38 +34,54 @@
     <div class="item item25">25</div>
   </div>
 <script>
-const items = document.querySelectorAll('.item');
+	 const items = document.querySelectorAll('.item');
+  const container = document.querySelector('.items');
 
-items.forEach((item) => {
-
+  let currentItem = null;
   let isDragging = false;
   let offsetX = 0;
   let offsetY = 0;
 
-  item.addEventListener('mousedown', function (e) {
-    isDragging = true;
+  items.forEach((item) => {
 
-    offsetX = e.clientX - item.getBoundingClientRect().left;
-    offsetY = e.clientY - item.getBoundingClientRect().top;
+    item.style.position = "absolute";
 
-    item.style.position = 'absolute';
-    item.style.zIndex = '1000';
+    // Random starting position
+    item.style.left = Math.random() * 500 + "px";
+    item.style.top = Math.random() * 300 + "px";
+
+    item.addEventListener('mousedown', (e) => {
+      currentItem = item;
+      isDragging = true;
+
+      offsetX = e.clientX - item.offsetLeft;
+      offsetY = e.clientY - item.offsetTop;
+    });
   });
 
-  document.addEventListener('mousemove', function (e) {
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging || !currentItem) return;
 
-    if (!isDragging) return;
+    let x = e.clientX - offsetX;
+    let y = e.clientY - offsetY;
 
-    item.style.left = (e.clientX - offsetX) + 'px';
-    item.style.top = (e.clientY - offsetY) + 'px';
+    // Boundary conditions
+    const maxX = container.clientWidth - currentItem.offsetWidth;
+    const maxY = container.clientHeight - currentItem.offsetHeight;
 
+    if (x < 0) x = 0;
+    if (y < 0) y = 0;
+    if (x > maxX) x = maxX;
+    if (y > maxY) y = maxY;
+
+    currentItem.style.left = x + 'px';
+    currentItem.style.top = y + 'px';
   });
 
-  document.addEventListener('mouseup', function () {
+  document.addEventListener('mouseup', () => {
     isDragging = false;
+    currentItem = null;
   });
-
-});
 </script>
   </body>
 </html>
